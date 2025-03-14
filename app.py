@@ -1,8 +1,6 @@
 import streamlit as st
-import numpy as np
 import pandas as pd
-import matplotlib.pyplot as plt
-import seaborn as sns
+import plotly.express as px  # Import Plotly Express
 
 # Title
 st.title("Interactive Data Science App")
@@ -35,14 +33,16 @@ else:
 # Show the first few rows of the dataset
 st.write("Here is a preview of the dataset:", df.head())
 
-# Create an interactive plot
+# Create an interactive plot with Plotly
 st.subheader("Interactive Scatterplot")
-x_axis = st.selectbox("Select the X axis", df.columns[:-1])
-y_axis = st.selectbox("Select the Y axis", df.columns[:-1])
+x_axis = st.selectbox("Select the X axis", df.columns[:-1])  # Exclude the target column
+y_axis = st.selectbox("Select the Y axis", df.columns[:-1])  # Exclude the target column
 
-fig, ax = plt.subplots()
-sns.scatterplot(x=df[x_axis], y=df[y_axis], ax=ax)
-st.pyplot(fig)
+# Create a Plotly scatter plot
+fig = px.scatter(df, x=x_axis, y=y_axis, title=f"Scatter plot of {x_axis} vs {y_axis}")
+
+# Show the Plotly plot in Streamlit
+st.plotly_chart(fig)
 
 # Add a button for download
 st.download_button(
